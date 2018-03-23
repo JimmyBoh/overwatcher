@@ -1,0 +1,22 @@
+{
+  "name": "overwatcher",
+  "version": "0.0.1",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "del overwatcher.zip",
+    "build": "tsc",
+    "bundle": "npm run clean && 7z a overwatcher.zip package.json package-lock.json dist node_modules"
+  },
+  "dependencies": {
+    "alexa-sdk": "^1.0.25",
+    "axios": "^0.18.0",
+    "moment-timezone": "^0.5.14",
+    "overwatchleague.js": "0.0.1"
+  },
+  "devDependencies": {
+    "@types/alexa-sdk": "^1.1.1",
+    "@types/moment-timezone": "^0.5.4",
+    "@types/node": "^9.6.0"
+  }
+}
