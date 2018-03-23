@@ -2,11 +2,12 @@
   "name": "overwatcher",
   "version": "0.0.1",
   "private": true,
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "clean": "gulp clean",
     "build": "gulp build",
     "test": "gulp test",
+    "bundle": "gulp bundle",
     "upload": "gulp publish"
   },
   "dependencies": {

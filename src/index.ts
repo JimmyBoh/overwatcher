@@ -30,15 +30,15 @@ const EMPTY_STRING = '';
 
 const handlers = {
     'LaunchRequest': function () {
-        this.emit('PlayingIntent');
+        this.emit('AMAZON.HelpIntent');
     },
-    'SetMyTeamIntent': async function () {
-        let speechOutput: string;
-        let specifiedTeam: string = this.event.request.intent.slots.team.value;
-        let team: Team = this.event.request.intent.slots.team.resolutions.resolutionsPerAuthority[0].values[0].value;
+    // 'SetMyTeamIntent': async function () {
+    //     let speechOutput: string;
+    //     let specifiedTeam: string = this.event.request.intent.slots.team.value;
+    //     let team: Team = this.event.request.intent.slots.team.resolutions.resolutionsPerAuthority[0].values[0].value;
 
         
-    },
+    // },
     'PlayingIntent': async function () {
         let specifiedTeam: string;
         let team: Team;
@@ -90,7 +90,7 @@ async function convertTime(origTime: Date, userId: string): Promise<Date> {
 export function handler (event: Alexa.RequestBody<Alexa.Request>, context: Alexa.Context, callback: (err: any, response: any) => void) {
     const alexa = Alexa.handler(event, context, callback);
     alexa.appId = APP_ID;
-    alexa.dynamoDBTableName = 'OverwatcherDB';
+    //alexa.dynamoDBTableName = 'OverwatcherDB';
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
