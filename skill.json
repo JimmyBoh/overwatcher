@@ -51,6 +51,21 @@
                         "set {myFavorite} to {team}",
                         "set {team} as {myFavorite}"
                     ]
+                },
+                {
+                    "name": "GetMyFavIntent",
+                    "slots": [
+                        {
+                            "name": "myFavorite",
+                            "type": "OWLTeam"
+                        }
+                    ],
+                    "samples": [
+                        "what {myFavorite} is",
+                        "who {myFavorite} is",
+                        "who is {myFavorite}",
+                        "what is {myFavorite}"
+                    ]
                 }
             ],
             "types": [
@@ -62,10 +77,10 @@
                             "name": {
                                 "value": "My Favorite",
                                 "synonyms": [
+                                    "my favorite team",
                                     "my team",
                                     "my fav",
-                                    "fav",
-                                    "my favorite"
+                                    "fav"
                                 ]
                             }
                         },

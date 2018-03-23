@@ -89,7 +89,6 @@ const handlers = {
             }
         } catch (ex) {
             speechOutput = specifiedTeam ? ('Hmm, ' + specifiedTeam + ' is not a registered team. Please try again with a registered team.') : 'Please specify a registered team.';
-            this.response.cardRenderer(SKILL_NAME, speechOutput);
             this.response.speak(speechOutput);
             this.emit(':responseReady');
             return;
