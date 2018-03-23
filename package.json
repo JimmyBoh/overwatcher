@@ -8,7 +8,8 @@
     "build": "gulp build",
     "test": "gulp test",
     "bundle": "gulp bundle",
-    "upload": "gulp publish"
+    "upload": "gulp publish",
+    "watch": "gulp watch"
   },
   "dependencies": {
     "alexa-sdk": "^1.0.25",

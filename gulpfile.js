@@ -27,37 +27,44 @@ function run(cmd, args) {
     });
 }
 
-function clean() {
+function delFiles() {
     return del([paths.dist('*')]);
 }
 
-function compile() {
+function compileTs() {
     return run(paths.node_modules('.bin\\tsc.cmd'));
 }
 
-function test() {
+function runTestFile() {
     return run('node', [paths.dist('test.js')]);
 }
 
-function bundle() {
-    const correctFiles = gulp.src([paths.root('package*.json'), paths.node_modules('**/*')], { base: paths.root() });
-    const filesToMove = gulp.src([paths.dist('**/*')]);
+function createZip() {
+    const correctFiles = gulp.src([paths.root('package*.json'), paths.node_modules('**/*')], { dot: true, nodir: true, base: paths.root() });
+    const filesToMove = gulp.src([paths.dist('*')], { nodir: true });
 
     return merge(correctFiles, filesToMove)
         .pipe(zip(ZIP_NAME))
         .pipe(gulp.dest(paths.root('.')));
 }
 
-function publish() {
+function upload() {
     return gulp
         .src(paths.root(ZIP_NAME))
         .pipe(lambda('overwatcher'));
 }
 
-gulp.task('clean', gulp.series(clean));
-gulp.task('build', gulp.series([clean, compile]));
-gulp.task('test', gulp.series([clean, compile, test]));
-gulp.task('bundle', gulp.series([clean, compile, bundle]));
-gulp.task('publish', gulp.series([clean, compile, bundle, publish]));
+function watch() {
+    // watch path must be relative...
+    return gulp.watch('src/*.ts', gulp.parallel(['publish']));
+}
 
-gulp.task('default', gulp.series('build'));
+gulp.task('clean', gulp.series([delFiles]));
+gulp.task('build', gulp.series([delFiles, compileTs]));
+gulp.task('test', gulp.series([delFiles, compileTs, runTestFile]));
+gulp.task('bundle', gulp.series([delFiles, compileTs, createZip]));
+gulp.task('publish', gulp.series([delFiles, compileTs, createZip, upload]));
+
+gulp.task('watch', gulp.series([watch]));
+
+gulp.task('default', gulp.series(['build']));

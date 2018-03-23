@@ -1,0 +1,234 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "overwatcher",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "MatchStatusIntent",
+                    "slots": [
+                        {
+                            "name": "team",
+                            "type": "OWLTeam"
+                        },
+                        {
+                            "name": "matchStatus",
+                            "type": "MatchStatus"
+                        }
+                    ],
+                    "samples": [
+                        "if the {team} are {matchStatus}",
+                        "if {team} is {matchStatus}",
+                        "are the {team} {matchStatus}",
+                        "is {team} {matchStatus}"
+                    ]
+                },
+                {
+                    "name": "SetMyFavIntent",
+                    "slots": [
+                        {
+                            "name": "team",
+                            "type": "OWLTeam"
+                        },
+                        {
+                            "name": "myFavorite",
+                            "type": "OWLTeam"
+                        }
+                    ],
+                    "samples": [
+                        "make {team} {myFavorite} ",
+                        "set {myFavorite} to {team}",
+                        "set {team} as {myFavorite}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "OWLTeam",
+                    "values": [
+                        {
+                            "id": "1",
+                            "name": {
+                                "value": "My Favorite",
+                                "synonyms": [
+                                    "my team",
+                                    "my fav",
+                                    "fav",
+                                    "my favorite"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "4523",
+                            "name": {
+                                "value": "Dallas Fuel",
+                                "synonyms": [
+                                    "Dallas",
+                                    "Fuel"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "4524",
+                            "name": {
+                                "value": "Philadelphia Fusion",
+                                "synonyms": [
+                                    "Philly",
+                                    "Philly Fusion",
+                                    "Fusion",
+                                    "Philadelphia"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "4525",
+                            "name": {
+                                "value": "Houston Outlaws",
+                                "synonyms": [
+                                    "Houston",
+                                    "Outlaws"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "4402",
+                            "name": {
+                                "value": "Boston Uprising",
+                                "synonyms": [
+                                    "Boston",
+                                    "Uprising"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "4403",
+                            "name": {
+                                "value": "New York Excelsior",
+                                "synonyms": [
+                                    "New York",
+                                    "New York City",
+                                    "N. Y.",
+                                    "N. Y. C.",
+                                    "N. Y. X. L.",
+                                    "Excelsior"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "4404",
+                            "name": {
+                                "value": "San Francisco Shock",
+                                "synonyms": [
+                                    "San Francisco",
+                                    "Shock",
+                                    "San Fran"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "4405",
+                            "name": {
+                                "value": "Los Angeles Valiant",
+                                "synonyms": [
+                                    "L. A. Valiant",
+                                    "Valiant"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "4406",
+                            "name": {
+                                "value": "Los Angeles Gladiators",
+                                "synonyms": [
+                                    "L. A. Gladiators",
+                                    "Gladiators"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "4407",
+                            "name": {
+                                "value": "Florida Mayhem",
+                                "synonyms": [
+                                    "Florida",
+                                    "Mayhem"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "4408",
+                            "name": {
+                                "value": "Shanghai Dragons",
+                                "synonyms": [
+                                    "Shanghai",
+                                    "Dragons"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "4409",
+                            "name": {
+                                "value": "Seoul Dynasty",
+                                "synonyms": [
+                                    "soul",
+                                    "Seoul",
+                                    "Dynasty"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "4410",
+                            "name": {
+                                "value": "London Spitfire",
+                                "synonyms": [
+                                    "London",
+                                    "Spitfire"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "MatchStatus",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "losing",
+                                "synonyms": [
+                                    "behind"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "winning",
+                                "synonyms": [
+                                    "in the lead"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "playing",
+                                "synonyms": [
+                                    "live"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
