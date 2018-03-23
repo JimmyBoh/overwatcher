@@ -1,4 +1,3 @@
-import * as moment from 'moment-timezone';
 const OWL = require('overwatchleague.js');
 
 import {

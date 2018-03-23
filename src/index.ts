@@ -1,5 +1,5 @@
 import * as Alexa from 'alexa-sdk';
-import * as moment from 'moment-timezone';
+import * as moment from 'moment';
 
 import { isTeamPlaying } from './service';
 import { Team } from './models';
@@ -18,7 +18,6 @@ const handlers = {
         this.emit('AMAZON.HelpIntent');    
     },
     'SetMyFavIntent': async function () {
-        let speechOutput: string = EMPTY_STRING;
         let specifiedTeam: string = this.event.request.intent.slots.team.value;
         let myFavorite: string = this.event.request.intent.slots.myFavorite.value;
         let team: Team = this.event.request.intent.slots.team.resolutions.resolutionsPerAuthority[0].values[0].value;
@@ -27,15 +26,51 @@ const handlers = {
         favorite.id = parseInt(favorite.id + EMPTY_STRING);
 
         if (team.id !== 1 && favorite.id !== 1) {
-            speechOutput += `I'm sorry, I didn't quite understand. Please try again. `;
+            let speechOutput = `I'm sorry, I didn't quite understand. Please try again. `;
+            this.response.speak(speechOutput);
+            this.emit(':responseReady');
         } else {
             let newFav = [team, favorite].find(t => t.id !== 1);
 
             this.attributes['fav'] = newFav;
-            speechOutput += `${newFav.name} has been set as your favorite. `;
+            let speechOutput = `${newFav.name} has been set as your favorite. `;
+            this.response.cardRenderer(SKILL_NAME, speechOutput);
+            this.response.speak(speechOutput);
+            this.emit(':responseReady');
+        }
+    },
+    'GetMyFavIntent': async function () {
+        let speechOutput: string = EMPTY_STRING;
+        let myFavorite: string;
+        let favorite: Team;
+
+        try {
+            myFavorite = this.event.request.intent.slots.myFavorite.value;
+            favorite = this.event.request.intent.slots.myFavorite.resolutions.resolutionsPerAuthority[0].values[0].value;
+            favorite.id = parseInt(favorite.id + EMPTY_STRING);
+        } catch (ex) {
+            this.response.speak(`I'm sorry, I didn't quite understand. Please try again.`);
+            this.emit(':responseReady');
+            return;
         }
 
-        this.response.speak(speechOutput);
+        if (favorite.id !== 1) {
+            this.response.speak(`I'm sorry, I didn't quite understand. Please try again.`);
+            this.emit(':responseReady');
+            return;
+        }
+
+        const currentFav = this.attributes['fav'];
+
+        if (currentFav) {
+            let speechOutput = `${currentFav.name} is your favorite.`;
+            this.response.speak(speechOutput);
+            this.response.cardRenderer(SKILL_NAME, speechOutput);
+            this.emit(':responseReady');
+            return;
+        }
+
+        this.response.speak(`You currently don't have a favorite team. You can tell me your favorite team, or ask me about any team.`);
         this.emit(':responseReady');
     },
     'MatchStatusIntent': async function () {
@@ -60,13 +95,12 @@ const handlers = {
             return;
         }
         
-        const results = await isTeamPlaying(team.id);
-        if (results.isPlaying) {
-            speechOutput = 'The ' + team.name + ' are currently playing against ' + results.nextGame.opponent;
+        const isPlayingResult = await isTeamPlaying(team.id);
+        if (isPlayingResult.isPlaying) {
+            speechOutput = 'The ' + team.name + ' are currently playing against ' + isPlayingResult.nextGame.opponent;
         } else {
-            const convertedTime = await convertTime(results.nextGame.time, null);
-            const timeStr = moment(convertedTime).format('dddd, MMMM Do [at] h:mma');
-            speechOutput = `The ${team.name} are not playing at the moment. Their next game is on ${timeStr} against the ${results.nextGame.opponent}.`;
+            const timeStr = moment(isPlayingResult.nextGame.time).format('dddd, MMMM Do');
+            speechOutput = `The ${team.name} are not playing at the moment. Their next game is on ${timeStr} against the ${isPlayingResult.nextGame.opponent}.`;
         }
 
         this.response.cardRenderer(SKILL_NAME, speechOutput);
@@ -87,10 +121,6 @@ const handlers = {
         this.emit(':responseReady');
     }
 };
-
-async function convertTime(origTime: Date, userId: string): Promise<Date> {
-    return origTime;
-}
 
 export function handler (event: Alexa.RequestBody<Alexa.Request>, context: Alexa.Context, callback: (err: any, response: any) => void) {
     const alexa = Alexa.handler(event, context, callback);

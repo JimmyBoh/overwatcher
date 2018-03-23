@@ -1,4 +1,4 @@
-import * as moment from 'moment-timezone';
+import * as moment from 'moment';
 import { isTeamPlaying, getNextGame } from './service';
 
 const OUTLAWS = 4525;
@@ -21,7 +21,7 @@ function show(id: number) {
         } else {
             speechOutput = 'The ' + results.nextGame.team + ' are not playing at the moment.';
             if (results.nextGame) {
-                let nextGameTime = moment(results.nextGame.time).format('dddd, MMMM Do [at] h:mma');
+                let nextGameTime = moment(results.nextGame.time).format('dddd, MMMM Do');
                 speechOutput += ' Their next game is on ' + nextGameTime + ' against the ' + results.nextGame.opponent;
             }
         }
