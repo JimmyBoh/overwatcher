@@ -21,16 +21,17 @@ export async function isTeamPlaying(teamId: number): Promise<TeamPlayingResult> 
 
 export function getNextGame(teamId: number): Promise<GetNextGameResult> {
     return OWL.getTeam(teamId).then((res: OWLResponse<GetTeamResult>) => {
-        const team = res.data;
-        const nextGame = team.schedule.filter(x => x.state !== 'CONCLUDED').sort((a, b) => a.startDate - b.startDate)[0];
+        const nextGame = res.data.schedule.filter(x => x.state !== 'CONCLUDED').sort((a, b) => a.startDate - b.startDate)[0];
 
         if (!nextGame) return null;
 
         const start = new Date(nextGame.startDate);
-        const opponent = nextGame.competitors.filter(x => x.id !== teamId)[0];
+        const team = nextGame.competitors.find(x => x.id === teamId);
+        const opponent = nextGame.competitors.find(x => x.id !== teamId);
 
         return {
             time: start,
+            team: team.name,
             opponent: opponent.name || 'TBD'
         };
     });

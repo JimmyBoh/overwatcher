@@ -8,11 +8,12 @@
             "type": "node",
             "request": "launch",
             "name": "Test",
-            "program": "${workspaceFolder}\\dist\\test.js",
-            "preLaunchTask": "tsc: build - tsconfig.json",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/src/test.ts",
+            "preLaunchTask": "npm: build",
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceFolder}/dist/**/*.js"
+                "${workspaceFolder}/dist/**"
             ]
         }
     ]

@@ -4,9 +4,10 @@
   "private": true,
   "main": "dist/index.js",
   "scripts": {
-    "clean": "del overwatcher.zip",
-    "build": "tsc",
-    "bundle": "npm run clean && 7z a overwatcher.zip package.json package-lock.json dist node_modules"
+    "clean": "del dist /Q && del overwatcher.zip /Q",
+    "build": "npm run clean && tsc",
+    "test": "npm run build && node dist/test",
+    "bundle": "npm run build && 7z a overwatcher.zip package.json package-lock.json dist node_modules"
   },
   "dependencies": {
     "alexa-sdk": "^1.0.25",

@@ -7,6 +7,7 @@ export interface TeamPlayingResult {
 
 export interface GetNextGameResult {
     time: Date,
+    team: string,
     opponent: string,
 }
 

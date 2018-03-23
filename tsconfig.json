@@ -6,8 +6,8 @@
         "moduleResolution": "node",
         "noImplicitAny": true,
         "removeComments": false,
-        "sourceMap": false,
+        "inlineSourceMap": true,
+        "rootDir": "src",
         "outDir": "dist"
-    },
-    "include": ["src/**/*"]
+    }
 }

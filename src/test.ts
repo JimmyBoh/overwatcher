@@ -1,21 +1,29 @@
+import * as moment from 'moment-timezone';
+import { isTeamPlaying, getNextGame } from './service';
 
-import { isTeamPlaying, getNextGame} from './service';
+const OUTLAWS = 4525;
+const DYNASTY = 4409;
+const VALIANT = 4405;
+const LONDON = 4410;
 
-const OUTLAWS = { id: 4525, name: 'Houston Outlaws' };
-const VALIANT = { id: 4405, name: 'Los Angeles Valiant' };
-const LONDON = { id: 4410, name: 'London Spitfire' };
+(async function test() {
+    await show(OUTLAWS);
+    await show(DYNASTY);
+    await show(VALIANT);
+    await show(LONDON);
+})();
 
-show(VALIANT);
-
-function show(team: {id: number, name: string}) {
-
-    return isTeamPlaying(team.id).then(function (results) {
+function show(id: number) {
+    return isTeamPlaying(id).then(function (results) {
         let speechOutput;
         if (results.isPlaying) {
-            speechOutput = 'The ' + team.name + ' are currently playing against ' + results.nextGame.opponent;
+            speechOutput = 'The ' + results.nextGame.team + ' are currently playing against ' + results.nextGame.opponent;
         } else {
-            speechOutput = 'The ' + team.name + ' are not playing at the moment.';
-            if (results.nextGame) speechOutput += ' Their next game is on ' + results.nextGame.time + ' against the ' + results.nextGame.opponent;
+            speechOutput = 'The ' + results.nextGame.team + ' are not playing at the moment.';
+            if (results.nextGame) {
+                let nextGameTime = moment(results.nextGame.time).format('dddd, MMMM Do [at] h:mma');
+                speechOutput += ' Their next game is on ' + nextGameTime + ' against the ' + results.nextGame.opponent;
+            }
         }
 
         console.log(speechOutput);
