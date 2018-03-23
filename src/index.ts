@@ -1,12 +1,5 @@
 /* eslint-disable  func-names */
 /* eslint quote-props: ["error", "consistent"]*/
-/**
- * This sample demonstrates a simple skill built with the Amazon Alexa Skills
- * nodejs skill development kit.
- * This sample supports multiple lauguages. (en-US, en-GB, de-DE).
- * The Intent Schema, Custom Slots and Sample Utterances for this skill, as well
- * as testing instructions are located at https://github.com/alexa/skill-sample-nodejs-fact
- **/
 
 'use strict';
 import * as Alexa from 'alexa-sdk';
@@ -14,10 +7,6 @@ import * as moment from 'moment-timezone';
 
 import { isTeamPlaying } from './service';
 import { Team } from './models';
-
-//Replace with your app ID (OPTIONAL).  You can find this value at the top of your skill's page on http://developer.amazon.com.
-//Make sure to enclose your value in quotes, like this:
-const APP_ID = process.env.OVERWATCHER_APP_ID;
 
 const SKILL_NAME = 'Overwatcher';
 const HELP_MESSAGE = 'You can ask if an Overwatch League team is playing... ?';
@@ -89,7 +78,7 @@ async function convertTime(origTime: Date, userId: string): Promise<Date> {
 
 export function handler (event: Alexa.RequestBody<Alexa.Request>, context: Alexa.Context, callback: (err: any, response: any) => void) {
     const alexa = Alexa.handler(event, context, callback);
-    alexa.appId = APP_ID;
+    alexa.appId = process.env.OVERWATCHER_APP_ID;
     //alexa.dynamoDBTableName = 'OverwatcherDB';
     alexa.registerHandlers(handlers);
     alexa.execute();

@@ -40,7 +40,9 @@ function test() {
 
 function bundle() {
     return gulp
-        .src(['package.json', 'package-lock.json', 'dist/**', 'node_modules'])
+        .src(['package.json', 'package-lock.json', 'dist/**/*', 'node_modules/**/*'], {
+            base: paths.root()
+        })
         .pipe(zip(ZIP_NAME))
         .pipe(gulp.dest(paths.root('.')));
 }
