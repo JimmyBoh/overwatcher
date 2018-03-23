@@ -16,12 +16,12 @@ import { isTeamPlaying } from './service';
 import { Team } from './models';
 
 //Replace with your app ID (OPTIONAL).  You can find this value at the top of your skill's page on http://developer.amazon.com.
-//Make sure to enclose your value in quotes, like this: const APP_ID = 'amzn1.ask.skill.bb4045e6-b3e8-4133-b650-72923c5980f1';
+//Make sure to enclose your value in quotes, like this:
 const APP_ID = process.env.OVERWATCHER_APP_ID;
 
 const SKILL_NAME = 'Overwatcher';
-const HELP_MESSAGE = 'You can ask if your Overwatch team is playing... How may I assist?';
-const HELP_REPROMPT = 'How may I assist?';
+const HELP_MESSAGE = 'You can ask if an Overwatch League team is playing... ?';
+const HELP_REPROMPT = 'Which team would you like to know about?';
 const EMPTY_STRING = '';
 
 //=========================================================================================================================================
@@ -32,14 +32,20 @@ const handlers = {
     'LaunchRequest': function () {
         this.emit('PlayingIntent');
     },
+    'SetMyTeamIntent': async function () {
+        let speechOutput: string;
+        let specifiedTeam: string = this.event.request.intent.slots.team.value;
+        let team: Team = this.event.request.intent.slots.team.resolutions.resolutionsPerAuthority[0].values[0].value;
+
+        
+    },
     'PlayingIntent': async function () {
         let specifiedTeam: string;
         let team: Team;
-        let speechOutput;
+        let speechOutput: string;
 
         try {
             specifiedTeam = this.event.request.intent.slots.team.value;
-            team = this.event.request.intent.slots.team.resolutions.resolutionsPerAuthority[0].values[0].value;
             team.id = parseInt(team.id + EMPTY_STRING);
         } catch (ex) {
             speechOutput = specifiedTeam ? ('Hmm, ' + specifiedTeam + ' is not a registered team. Please try again with a registered team.') : 'Please specify a registered team.';
@@ -84,6 +90,7 @@ async function convertTime(origTime: Date, userId: string): Promise<Date> {
 export function handler (event: Alexa.RequestBody<Alexa.Request>, context: Alexa.Context, callback: (err: any, response: any) => void) {
     const alexa = Alexa.handler(event, context, callback);
     alexa.appId = APP_ID;
+    alexa.dynamoDBTableName = 'OverwatcherDB';
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
