@@ -1,5 +1,6 @@
 const spawn = require('child_process').spawn;
 const del = require('del');
+const merge = require('merge-stream');
 const gulp = require('gulp');
 const zip = require('gulp-zip');
 const lambda = require('gulp-awslambda');
@@ -39,10 +40,10 @@ function test() {
 }
 
 function bundle() {
-    return gulp
-        .src(['package.json', 'package-lock.json', 'dist/**/*', 'node_modules/**/*'], {
-            base: paths.root()
-        })
+    const correctFiles = gulp.src([paths.root('package*.json'), paths.node_modules('**/*')], { base: paths.root() });
+    const filesToMove = gulp.src([paths.dist('**/*')]);
+
+    return merge(correctFiles, filesToMove)
         .pipe(zip(ZIP_NAME))
         .pipe(gulp.dest(paths.root('.')));
 }

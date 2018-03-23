@@ -1,7 +1,3 @@
-/* eslint-disable  func-names */
-/* eslint quote-props: ["error", "consistent"]*/
-
-'use strict';
 import * as Alexa from 'alexa-sdk';
 import * as moment from 'moment-timezone';
 
